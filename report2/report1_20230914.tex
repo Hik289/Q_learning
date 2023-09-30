@@ -1,0 +1,104 @@
+\documentclass[11pt]{article}
+
+\usepackage{multicol}
+%\usepackage{mwe}
+\usepackage{subfigure}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage[top=0.5in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{pdflscape}
+\usepackage{times}
+\usepackage{bm}
+%\usepackage{setspace}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{CJK}
+\usepackage{longtable}
+%\usepackage[final]{pdfpages}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{algorithm2e}
+\usepackage{float}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+
+\hypersetup{hidelinks,
+	colorlinks=true,
+	allcolors=black,
+	pdfstartview=Fit,
+	breaklinks=true}
+
+\pagestyle{plain}
+
+
+
+
+\begin{document}
+
+\title{report on Qlearning algorithms}
+\author{SXY,SYF}
+\date{\today}
+
+\maketitle % need full-width title
+
+
+\section{algorithm}
+
+\IncMargin{1em}
+\begin{algorithm} \SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up} \SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress} \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+	 
+	 \For{$iSessions\leftarrow 0$ \KwTo $10$}{ 
+		\State Initialization: Q  \KwTo  InitQ
+		\State Initialization: prime\_strategy  \KwTo  (init\_action,num_players)
+		\State Initialization: state  \KwTo  (init\_state,num\_players)
+		\BlankLine 
+	 	\emph{iterations counter}\; 
+	 	\For{$iters\leftarrow 0$ \KwTo $max\_iters$}
+			{
+				\For{$players\leftarrow 0$ \KwTo $num\_players$}
+				{
+					$temp\_Q$ \KwTo $Q^{players}(state,action)$
+					$max\_Val$ \KwTo $max^{actions}(temp\_Q)$
+					$prime\_strategy$ \KwTo $argmax^{actions}(temp\_Q)$
+
+			    }
+				$state^\prime$ \KwTo $prime\_strategy$
+
+				\For{$players\leftarrow 0$ \KwTo $num\_players$}
+				 {
+					\If{$Uniform(0,1) < exp(-\beta*iters)$ }
+				 		{
+							$prime\_p$ \KwTo $Uniform(0,1)*Action\_Space$
+						}
+					\lElse{}
+					{
+						$prime\_p$ \KwTo $prime\_strategy$
+					}   
+				}
+
+				\For{$players\leftarrow 0$ \KwTo $num\_players$}
+				{
+					$old\_Q$ \KwTo $Q^{players}(state,prime\_p)$
+					$new\_Q$ \KwTo $old\_Q + \alpha * \big[ Profits^{players}(state)
+						+ \delta * max\_Val - old\_Q\big]$					
+					$Q^{players}(state,prime\_p)$ \KwTo $new\_Q$
+
+			    }	
+				$state$ \KwTo $state1$		
+
+ 		 } 
+ 	 	  \caption{$Q\_learning algorithm$}
+ 	 	  \label{algorithm1} 
+ 	 \end{algorithm}
+ \DecMargin{1em} 
+
+
+
+
+\end{document} 
